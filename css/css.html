@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="css.css" rel="stylesheet" type="text/css">
+</head>
+
+<body>
+  <section class="resp-grid">
+    <div class="title">Responsive Grid</div>
+    <div class="preview">
+      <div class="resp-grid--grid">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+        <div class="item">5</div>
+        <div class="item">6</div>
+        <div class="item">7</div>
+        <div class="item">8</div>
+        <div class="item">9</div>
+      </div>
+    </div>
+    <pre class="code">
+      .example-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(50px, 1fr));
+      }
+    </pre>
+    <pre class="code">
+      .example-grid-item {
+          height: 50px;
+      }
+    </pre>
+  </section>
+  <section class="grid-areas">
+    <div class="title">Grid Areas</div>
+    <div class="preview">
+      <div class="grid-areas--grid">
+        <div class="item">1</div>
+        <div class="item">2</div>
+        <div class="item">3</div>
+        <div class="item">4</div>
+        <div class="item">5</div>
+        <div class="item">6</div>
+        <div class="item">7</div>
+        <div class="item">8</div>
+        <div class="item">9</div>
+      </div>
+    </div>
+    <pre class="code">
+      .example-grid {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        grid-template-rows: repeat(5, 1fr);
+        grid-template-areas:
+          "a a b c c"
+          "d _ _ c c"
+          "g e e e f"
+          "g h i i i"
+          "g h i i i";
+        height: 100%;
+      }
+    </pre>
+    <pre class="code">
+      .grid-item:nth-child(1) {grid-area: a;}
+      .grid-item:nth-child(2) {grid-area: b;}
+      .grid-item:nth-child(3) {grid-area: c;}
+      .grid-item:nth-child(4) {grid-area: d;}
+      .grid-item:nth-child(5) {grid-area: e;}
+      .grid-item:nth-child(6) {grid-area: f;}
+      .grid-item:nth-child(7) {grid-area: g;}
+      .grid-item:nth-child(8) {grid-area: h;}
+      .grid-item:nth-child(9) {grid-area: i;}
+    </pre>
+  </section>
+  <script src="css.js"></script>
+</body>
+
+</html>
