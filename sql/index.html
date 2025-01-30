@@ -1,11 +1,516 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Audiowide&family=Bungee&family=Bungee+Hairline&family=Geo:ital@0;1&family=Iceberg&family=Londrina+Outline&family=Orbitron:wght@400..900&family=Press+Start+2P&family=Russo+One&family=Space+Mono:ital,wght@0,400;0,700;1,400;1,700&family=VT323&display=swap"
+    rel="stylesheet">
+  <link href="./styles.css" rel="stylesheet">
 </head>
+
 <body>
-    <h1>Welcome to SQL</h1>
+  <h1>SQL Cheat Sheet</h1>
+
+  <!-- Beginner (Essentials) -->
+  <h2>Beginner (Essentials)</h2>
+
+  <section>
+    <h3>Basic Queries</h3>
+
+    <h4>SELECT</h4>
+    <p>(Basic selection)</p>
+
+    <code>
+<pre>
+SELECT 
+  column1, column2 
+  FROM table_name;
+</pre>
+</code>
+
+    <h4>WHERE</h4>
+    <p>(Filtering records)</p>
+
+    <code>
+<pre>
+SELECT * 
+  FROM table_name 
+  WHERE column = value;
+</pre>
+</code>
+
+
+    <h3>Sorting and Limiting</h3>
+
+    <h4>ORDER BY</h4>
+    <p>(Sorting results)</p>
+
+    <code>
+<pre>
+SELECT * 
+  FROM table_name 
+  ORDER BY column ASC|DESC;
+</pre>
+</code>
+
+    <h4>LIMIT/OFFSET</h4>
+    <p>(Limiting results)</p>
+
+    <code>
+<pre>
+SELECT * 
+  FROM table_name 
+  LIMIT 5 
+  OFFSET 10;
+</pre>
+</code>
+
+    <h3>Aggregation Functions</h3>
+
+    <h4>COUNT(), SUM(), AVG(), MAX(), MIN()</h4>
+
+    <code>
+<pre>
+SELECT COUNT(*) 
+  FROM table_name;
+
+SELECT AVG(column) 
+  FROM table_name;
+</pre>
+</code>
+
+    <h4>INSERT</h4>
+    <p>(Adding data)</p>
+
+    <code>
+<pre>
+INSERT INTO 
+  table_name 
+    (column1, column2) 
+  VALUES 
+    (value1, value2);
+</pre>
+</code>
+
+    <h4>UPDATE</h4>
+    <p>(Modifying data)</p>
+
+    <code>
+<pre>
+UPDATE table_name 
+  SET column1 = value1 
+  WHERE condition;
+</pre>
+</code>
+
+    <h4>DELETE</h4>
+    <p>(Removing data)</p>
+
+    <code>
+<pre>
+DELETE 
+  FROM table_name 
+  WHERE condition;
+</pre>
+</code>
+
+  </section>
+
+
+  <!-- Intermediate (Core Concepts) -->
+  <h2>Intermediate (Core Concepts)</h2>
+
+  <section>
+    <h3>JOIN Operations</h3>
+    <p>Combining Tables</p>
+
+    <h4>INNER JOIN</h4>
+
+    <code>
+<pre>
+SELECT columns 
+  FROM table1 INNER 
+  JOIN table2 
+  ON table1.id = table2.id;
+</pre>
+</code>
+
+    <h4>LEFT JOIN</h4>
+
+    <code>
+<pre>
+SELECT columns 
+  FROM table1 
+  LEFT JOIN table2 
+  ON table1.id = table2.id;
+</pre>
+</code>
+
+    <h4>RIGHT JOIN</h4>
+
+    <code>
+<pre>
+SELECT columns 
+  FROM table1 
+  RIGHT JOIN table2 
+  ON table1.id = table2.id;
+</pre>
+</code>
+
+    <h4>FULL OUTER JOIN</h4>
+
+    <code>
+<pre>
+SELECT columns 
+  FROM table1 
+  FULL OUTER JOIN table2 
+  ON table1.id = table2.id;
+</pre>
+</code>
+
+    <h3>Subqueries (Nested Queries)</h3>
+
+    <h4>Subquery in SELECT</h4>
+
+    <code>
+<pre>
+SELECT 
+  column, 
+  (SELECT COUNT(*) 
+    FROM table2 
+    WHERE 
+    table2.column = table1.column
+  ) AS count 
+  FROM table1;
+</pre>
+</code>
+
+    <h4>Subquery in WHERE</h4>
+
+    <code>
+<pre>
+SELECT column 
+  FROM table 
+  WHERE column IN (
+    SELECT column 
+      FROM table2 
+      WHERE condition
+  );
+</pre>
+</code>
+
+    <h3>Group By / Having (Grouping & Filtering)</h3>
+
+    <h4>GROUP BY</h4>
+    <p>(Aggregating by category)</p>
+
+    <code>
+<pre>
+SELECT column, COUNT(*) 
+  FROM table_name 
+  GROUP BY column;
+</pre>
+</code>
+
+    <h4>HAVING</h4>
+    <p>(Filtering after GROUP BY)</p>
+
+    <code>
+<pre>
+SELECT column, COUNT(*) 
+  FROM table_name 
+  GROUP BY column 
+  HAVING COUNT(*) > 10;
+</pre>
+</code>
+
+
+    <h3>Removing Duplicates</h3>
+
+    <h4>DISTINCT</b> (Removing Duplicates)</p>
+
+      <code>
+<pre>
+SELECT DISTINCT column 
+  FROM table_name;
+</pre>
+</code>
+
+      <h3>Indexing (Performance)</h3>
+
+      <h4>Indexing</b> (Basic indexing for performance)</p>
+
+        <code>
+<pre>
+CREATE 
+  INDEX index_name 
+  ON table_name (column);
+</pre>
+</code>
+
+  </section>
+
+  <h2>Advanced (Real-World Use)</h2>
+
+  <section>
+
+    <h3>CTEs (Common Table Expression)</h3>
+
+    <h4>Basic CTE</h4>
+
+    <code>
+<pre>
+WITH cte AS (
+  SELECT column1, column2 
+    FROM table_name 
+    WHERE condition
+)
+SELECT * FROM cte;
+</pre>
+</code>
+
+    <h4>Recursive CTE</h4>
+
+    <code>
+<pre>
+WITH RECURSIVE cte AS (
+  SELECT id, parent_id 
+    FROM table_name 
+    WHERE parent_id IS NULL
+  UNION ALL
+  SELECT t.id, t.parent_id 
+    FROM table_name t 
+    INNER JOIN cte c 
+    ON c.id = t.parent_id
+)
+SELECT * FROM cte;
+</pre>
+</code>
+
+    <h3>Window Functions (Advanced aggregation over a subset of rows)</h3>
+
+    <h4>ROW_NUMBER(), RANK(), DENSE_RANK()</h4>
+
+    <code>
+<pre>
+SELECT 
+  column1, 
+  ROW_NUMBER() OVER (
+    PARTITION BY column2 
+    ORDER BY column3
+  ) 
+  FROM table_name;
+</pre>
+</code>
+
+    <h4>SUM(), AVG() OVER (Windowing Functions)</h4>
+
+    <code>
+<pre>
+SELECT 
+  column1, 
+  SUM(column2) OVER (
+    PARTITION BY column3
+  ) 
+  FROM table_name;
+</pre>
+</code>
+
+    <h3>Transactions</h3>
+
+    <h4>BEGIN, COMMIT, ROLLBACK (Data Integrity)</h4>
+
+    <code>
+<pre>
+BEGIN TRANSACTION;
+COMMIT;
+ROLLBACK;
+</pre>
+</code>
+
+    <h3>Stored Procedures & Functions</h3>
+
+    <h4>Stored Procedure</h4>
+    <code>
+<pre>
+CREATE 
+  PROCEDURE procedure_name 
+AS
+BEGIN
+  SELECT * FROM table_name;
+END;
+</pre>
+</code>
+
+    <h4>User-Defined Function (UDF)</h4>
+
+    <code>
+<pre>
+CREATE 
+  FUNCTION 
+    function_name (@param datatype) 
+  RETURNS 
+    datatype
+AS
+BEGIN
+  RETURN (
+    SELECT column 
+    FROM table_name 
+    WHERE column = @param
+  );
+END;
+</pre>
+</code>
+
+    <h4>Triggers</h4>
+    <p>(Automating action based on changes)</p>
+
+      <code>
+<pre>
+CREATE 
+  TRIGGER trigger_name
+  AFTER INSERT 
+  ON table_name
+  FOR EACH ROW
+BEGIN
+-- Action code here
+END;
+</pre>
+</code>
+
+  </section>
+
+  <h2>Expert (Optimization & Problem Solving)</h2>
+
+  <section>
+
+    <h3>Query Optimization Techniques</h3>
+
+    <h4>EXPLAIN PLAN</h4>
+    <p>(Viewing query execution plan)</p>
+
+    <code>
+<pre>
+EXPLAIN SELECT * FROM table_name;
+</pre>
+</code>
+
+    <h4>Index Optimization PLAN</h4>
+    <p>(Choosing indexes for faster retrieval)</p>
+
+    <ul>
+      <li>Use composite indexes</li>
+      <li>Indexing foreign keys</li>
+      <li>Avoid over-indexing (too many indexes can slow down writes)</li>
+    </ul>
+
+    <h4>Joins Optimization</h4>
+    <p>(Minimize the number of rows involved)</p>
+
+    <ul>
+      <li>Choose appropriate join types</li>
+    </ul>
+
+    <h4>Partitioning & Sharding</h4>
+    <p>Dividing large tables into smaller parts</p>
+
+    <code>
+<pre>
+CREATE 
+  TABLE table_name 
+PARTITION 
+  BY RANGE (date_column);
+</pre>
+</code>
+
+    <h3>Handling Large Datasets</h3>
+
+    <h4>BULK INSERT / COPY</h4>
+    <p>(For fast data loading)</p>
+
+    <code>
+<pre>
+BULK INSERT table_name 
+  FROM 'file_path';
+</pre>
+</code>
+
+    <h4>Window Functions for Large Aggregations</h4>
+
+    <ul>
+      <li>Perform calculations over partitions without collapsing the data.</li>
+    </ul>
+
+    </section>
+
+    <h2>Master (Design & Advanced Problem-Solving)</h2>
+
+    <section>
+    <h3>Data Modeling & Normalization</h3>
+    <p>(Database Design)</p>
+
+    <ul>
+      <li>1NF, 2NF, 3NF</li>
+      <li>Star Schema / Snowflake Schema for Data Warehousing</li>
+    </ul>
+
+    <h3>Advanced Query Design for Real-World Scenarios</h3>
+
+    <ul>
+      <li>Recursive Queries</li>
+      <li>Pivoting & Unpivoting Data</li>
+    </ul>
+
+    <h4>Pivoting & Unpivoting Data</h4>
+
+    <code>
+<pre>
+SELECT * 
+FROM table_name 
+PIVOT (
+  SUM(column) 
+  FOR column2 
+  IN ([value1], [value2])
+) AS pvt;
+</pre>
+</code>
+
+    <h3>Multi-Database Design</h3>
+    <p>(For cross-database queries or microservices)</p>
+
+    <h4>Federated Queries</h4>
+    <p>(Accessing different databases in a single query)</p>
+
+    <code>
+<pre>
+SELECT * 
+  FROM database1.table_name 
+UNION 
+  SELECT * 
+FROM database2.table_name;
+</pre>
+</code>
+
+    <h3>Advanced Data Security:</h3>
+
+    <ul>
+      <li>Row-Level Security<p>(Restrict access to certain rows based on user)</p></li>
+      <li>Encryption at Rest and in Transit</li>
+    </ul>
+
+    <h3>Replication & Backup Strategies:</h3>
+
+    <ul>
+      <li>Master-Slave Replication for high availability</li>
+      <li>Point-in-Time Recovery for backup and disaster recovery</li>
+    </ul>
+
+  </section>
 </body>
+
 </html>
