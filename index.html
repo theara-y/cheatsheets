@@ -3,9 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Tech Cheatsheets</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 20px;
+            font-family: Arial, sans-serif;
+            background-color: #1a1a1a;
+            color: #e6e6e6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        h1 {
+            color: #66b3ff;
+            font-size: 2.5rem;
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .cheatsheet-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            max-width: 800px;
+            width: 100%;
+        }
+
+        .cheatsheet-link {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            text-decoration: none;
+            color: #66b3ff;    /* Changed to blue for better visibility */
+            text-align: center;
+            font-size: 1.5rem;  /* Increased font size */
+            font-weight: bold;  /* Made text bold */
+            border: 2px solid #404040;  /* Made border more visible */
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cheatsheet-link:hover {
+            background: #333333;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 179, 255, 0.2);  /* Blue glow */
+            border-color: #66b3ff;
+            color: #ffffff;     /* White text on hover */
+        }
+
+        .cheatsheet-link::after {
+            content: '→';       /* Added arrow */
+            position: absolute;
+            right: 20px;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+
+        .cheatsheet-link:hover::after {
+            opacity: 1;
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 15px;
+            }
+
+            h1 {
+                font-size: 2rem;
+                margin-bottom: 20px;
+            }
+
+            .cheatsheet-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .cheatsheet-link {
+                padding: 15px;
+                font-size: 1.3rem;
+                min-height: 80px;
+            }
+        }
+
+        .disabled-link {
+            pointer-events: none;  /* Makes link unclickable */
+            opacity: 0.5;         /* Makes it look disabled */
+            cursor: not-allowed;   /* Changes cursor to indicate disabled state */
+            color: #666;          /* Grayed out color */
+        }
+    </style>
 </head>
 <body>
-    <a href="./sql">SQL</a>
+    <h1>Tech Cheatsheets</h1>
+    <div class="cheatsheet-grid">
+        <a href="./kafka/" class="cheatsheet-link">Kafka</a>
+        <a href="./sql/" class="cheatsheet-link">SQL</a>
+        <a href="./css/" class="cheatsheet-link disabled-link">CSS</a>
+    </div>
 </body>
 </html>
