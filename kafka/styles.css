@@ -1,0 +1,209 @@
+/* Base Styles */
+body {
+    margin: 0;
+    padding: 10px;
+    font-family: Arial, sans-serif;
+    background-color: #1a1a1a;
+    color: #e6e6e6;
+}
+
+.dashboard {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.panel {
+    background: #2d2d2d;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+
+/* Typography - Reduced margins */
+h1 {
+    color: #66b3ff;
+    margin: 0 0 10px 0;
+    font-size: 20px;
+}
+
+h2 {
+    color: #b3d1ff;
+    font-size: 16px;
+    margin: 10px 0 8px 0;
+}
+
+h3 {
+    font-size: 14px;
+    margin: 8px 0 6px 0;
+    color: #80bfff;
+}
+
+p {
+    line-height: 1.4;
+    margin: 6px 0;
+    color: #cccccc;
+}
+
+ul {
+    margin: 6px 0;
+    padding-left: 20px;
+}
+
+li {
+    margin-bottom: 6px;
+    line-height: 1.3;
+    color: #cccccc;
+}
+
+/* Flex Containers - Tighter gaps */
+.terms-container,
+.features-container,
+.use-cases-container,
+.cluster-container,
+.commands-container,
+.config-container,
+.security-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+/* Flex Items - Smaller padding */
+.term,
+.feature,
+.use-case,
+.cluster-item,
+.command-item,
+.config-item,
+.security-item {
+    background: #333333;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #404040;
+}
+
+/* Adjusted flex bases for more items per row */
+.term { flex: 1 1 180px; }
+.feature { flex: 1 1 250px; }
+.use-case { flex: 1 1 250px; }
+.cluster-item { flex: 1 1 280px; }
+.command-item { flex: 1 1 300px; }
+.config-item { flex: 1 1 280px; }
+.security-item { flex: 1 1 280px; }
+
+/* Pre-formatted Text - Tighter padding */
+pre {
+    background: #1a1a1a;
+    color: #e6e6e6;
+    padding: 10px;
+    border-radius: 4px;
+    border: 1px solid #404040;
+    font-size: 12px;
+    line-height: 1.3;
+}
+
+/* Highlight Elements - Compact */
+.highlight,
+.flow {
+    background: #404040;
+    padding: 6px 10px;
+    border-radius: 4px;
+    color: #80bfff;
+    font-size: 13px;
+    margin: 6px 0;
+}
+
+/* Security Items - Tighter spacing */
+.protocol,
+.port {
+    background: #333333;
+    padding: 10px;
+    margin-bottom: 8px;
+    border-radius: 4px;
+    border: 1px solid #404040;
+}
+
+.port .note {
+    font-size: 11px;
+    margin-top: 4px;
+}
+
+/* Mobile adjustments */
+@media (max-width: 768px) {
+    .panel {
+        padding: 12px;
+    }
+
+    .term,
+    .feature,
+    .use-case,
+    .cluster-item,
+    .command-item,
+    .config-item,
+    .security-item {
+        flex: 1 1 100%;
+        padding: 10px;
+    }
+}
+
+/* Producer and Consumer sections */
+.producer-container,
+.consumer-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.producer-item,
+.consumer-item {
+    flex: 1 1 250px;
+    background: #333333;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #404040;
+}
+
+.producer-item h3,
+.consumer-item h3 {
+    color: #80bfff;
+    margin: 0 0 8px 0;
+    font-size: 14px;
+}
+
+.producer-item ul,
+.consumer-item ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.producer-item li,
+.consumer-item li {
+    color: #cccccc;
+    margin-bottom: 6px;
+    line-height: 1.3;
+    font-size: 13px;
+}
+
+/* Consumer example box */
+.consumer-example {
+    background: #1a1a1a;
+    color: #e6e6e6;
+    padding: 10px;
+    border-radius: 4px;
+    margin-top: 8px;
+    font-family: monospace;
+    font-size: 12px;
+    line-height: 1.3;
+    border: 1px solid #404040;
+}
+
+@media (max-width: 768px) {
+    .producer-item,
+    .consumer-item {
+        flex: 1 1 100%;
+        padding: 10px;
+    }
+}

@@ -511,6 +511,90 @@ FROM database2.table_name;
     </ul>
 
   </section>
+
+  <h2>Interview</h2>
+
+  <section>
+    <h3>Find duplicate records</h3>
+
+<code>
+<pre>
+SELECT column1, column2, COUNT(*) 
+  FROM table 
+  GROUP BY column1, column2 
+  HAVING COUNT(*) > 1;
+</pre>
+</code>
+
+    <h4>Excludes the first record.</h4>
+
+<code>
+<pre>
+WITH RankedRecords AS (
+  SELECT 
+    *, 
+    ROW_NUMBER() OVER (
+      PARTITION BY column1, column2 
+      ORDER BY id
+    ) AS row_num
+  FROM table_name
+)
+SELECT * 
+  FROM RankedRecords 
+  WHERE row_num > 1;
+</pre>
+</code>
+
+    <h3>Count the number of unique values in a column</h3>
+
+<code>
+<pre>
+SELECT COUNT(DISTINCT column)
+FROM table;
+</pre>
+</code>
+
+    <h3>Write a query to return Nth highest salary.</h3>
+
+    <h4>MySQL, PostgreSQL, SQLite</h4>
+
+<code>
+<pre>
+SELECT * 
+  FROM table 
+  ORDER BY salary DESC 
+  LIMIT n 
+  OFFSET n-1;
+</pre>
+</code>
+
+<h4>SQL Server, PostgreSQL, Oracle, etc.</h4>
+<p>(Use DENSE_RANK() to account for ties)</p>
+
+<code>
+<pre>
+WITH RankedSalaries AS (
+  SELECT 
+    salary, 
+    ROW_NUMBER() OVER (
+      ORDER BY salary DESC
+    ) AS row_num
+  FROM employees
+)
+SELECT salary
+FROM RankedSalaries
+WHERE row_num = 3;  
+</pre>
+</code>
+
+    <h4>Find missing values in a series.</h4>
+
+    <h3>Real-Life Scenarios and Optimization Challenges</h3>
+
+    <h4>Design a database for a complex system (e.g., e-commerce platform, social media application).</h4>
+    <h4>Write optimized queries for reporting/analytics use cases.</h4>
+
+  </section>
 </body>
 
 </html>

@@ -1,0 +1,573 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kafka Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="dashboard">
+        <!-- Definition Panel -->
+        <div class="panel">
+            <h1>What is Kafka?</h1>
+            <p>Distributed Event Streaming Platform</p>
+            <p>A distributed messaging system with data retention and cross functional producers and consumers.</p>
+        </div>
+
+        <!-- Terminology Panel -->
+        <div class="panel terminology-panel">
+            <h1>Key Terminology</h1>
+            <div class="terms-container">
+                <div class="term">
+                    <h3>Topic</h3>
+                    <p>Channel for messages</p>
+                </div>
+                <div class="term">
+                    <h3>Producer</h3>
+                    <p>Sends messages</p>
+                </div>
+                <div class="term">
+                    <h3>Consumer</h3>
+                    <p>Reads messages</p>
+                </div>
+                <div class="term">
+                    <h3>Broker</h3>
+                    <p>Kafka server</p>
+                </div>
+                <div class="term">
+                    <h3>Partition</h3>
+                    <p>Topic division</p>
+                </div>
+                <div class="term">
+                    <h3>Consumer Group</h3>
+                    <p>Load sharing consumers</p>
+                </div>
+                <div class="term">
+                    <h3>Offset</h3>
+                    <p>Message position</p>
+                </div>
+                <div class="term">
+                    <h3>Record/Message</h3>
+                    <p>Data unit</p>
+                </div>
+                <div class="term">
+                    <h3>Leader</h3>
+                    <p>Primary partition</p>
+                </div>
+                <div class="term">
+                    <h3>Follower</h3>
+                    <p>Backup partition</p>
+                </div>
+                <div class="term">
+                    <h3>ISR</h3>
+                    <p>In-sync replicas</p>
+                </div>
+                <div class="term">
+                    <h3>Log</h3>
+                    <p>Partition data store</p>
+                </div>
+                <div class="term">
+                    <h3>Cluster</h3>
+                    <p>Connected brokers</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Architecture Panel -->
+        <div class="panel">
+            <h1>Architecture</h1>
+            <pre>
+Producers >>> Kafka Cluster >>> Consumers
+                   v
+              Event Storage
+-----------------------------------------
+
+Broker 1 (Server 1):
+    ↳ Topic: "user_clicks"
+        - Partition 0: LEADER [msgs 1-100]
+            ↳ msg1: "click_home"
+            ↳ msg2: "click_cart"
+        - Partition 1: FOLLOWER [msgs 101-200]
+            ↳ (replica of Broker 2's data)
+
+Broker 2 (Server 2):
+    ↳ Topic: "user_clicks"
+        - Partition 0: FOLLOWER [msgs 1-100]
+            ↳ (replica of Broker 1's data)
+        - Partition 1: LEADER [msgs 101-200]
+            ↳ msg101: "click_profile"
+            ↳ msg102: "click_settings"
+
+Broker 3 (Server 3):
+    ↳ Topic: "user_clicks"
+        - Partition 1: FOLLOWER [msgs 101-200]
+            ↳ (replica of Broker 2's data)
+            </pre>
+        </div>
+
+        <!-- Core Components Panel -->
+        <!-- Producers Panel -->
+        <div class="panel">
+            <h1>Producers</h1>
+            <div class="producer-container">
+                <div class="producer-item">
+                    <h3>Key Features</h3>
+                    <ul>
+                        <li>Can send to specific partitions</li>
+                        <li>Can send with/without keys</li>
+                        <li>Automatic load balancing</li>
+                        <li>Configurable acknowledgements (ACKS)</li>
+                    </ul>
+                </div>
+
+                <div class="producer-item">
+                    <h3>Sending Options</h3>
+                    <ul>
+                        <li>Simple (no key): Producer -> Round Robin -> Partitions</li>
+                        <li>With Key: Producer -> Hash(key) -> Specific Partition</li>
+                        <li>Direct: Producer -> Chosen Partition</li>
+                    </ul>
+                </div>
+
+                <div class="producer-item">
+                    <h3>Acknowledgement Levels</h3>
+                    <ul>
+                        <li>0 = Fire and forget</li>
+                        <li>1 = Leader confirms</li>
+                        <li>all = All replicas confirm</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Consumers Panel -->
+        <div class="panel">
+            <h1>Consumers</h1>
+            <div class="consumer-container">
+                <div class="consumer-item">
+                    <h3>Basic Consumer</h3>
+                    <ul>
+                        <li>Reads messages from topics</li>
+                        <li>Track position using "offset"</li>
+                        <li>Can read from multiple partitions</li>
+                    </ul>
+                </div>
+
+                <div class="consumer-item">
+                    <h3>Consumer Groups</h3>
+                    <ul>
+                        <li>One partition - One consumer (per group)</li>
+                        <li>One consumer - Multiple partitions (per topic)</li>
+                        <li>One partition - Multiple consumers (same group, not possible)</li>
+                    </ul>
+                </div>
+
+                <div class="consumer-item">
+                    <div class="consumer-example">
+                        <pre>
+Topic: "orders"
+[Partition 0]: msg1, msg2, msg3, msg4, msg5...
+[Partition 1]: msg6, msg7, msg8, msg9...
+
+Consumer Group A (Order Processing)
+- Consumer 1 reading Partition 0: offset = 3
+- Consumer 2 reading Partition 1: offset = 4
+
+Consumer Group B (Analytics)
+- Consumer 1 reading Partition 0: offset = 5
+- Consumer 2 reading Partition 1: offset = 2
+                        </pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Brokers Panel -->
+        <div class="panel cluster-panel">
+            <h1>Brokers & Cluster Management</h1>
+            <div class="cluster-container">
+                <div class="cluster-item">
+                    <h2>Brokers</h2>
+                    <p class="highlight">A group of brokers is called a cluster</p>
+                    <ul>
+                        <li>Store partitions</li>
+                        <li>Handle partition leadership</li>
+                        <li>Manage replicas</li>
+                        <li>Handle client requests</li>
+                        <li>Works in a cluster, sharing workload</li>
+                        <li>Each broker has a unique id</li>
+                        <li>Failure automatically handled</li>
+                    </ul>
+                </div>
+
+                <div class="cluster-item">
+                    <h2>kRaft (Cluster Management)</h2>
+                    <p class="highlight">Replaced ZooKeeper for cluster coordination</p>
+                    <ul>
+                        <li>Broker health tracking</li>
+                        <li>Leader elections</li>
+                        <li>Cluster metadata</li>
+                        <li>Partition management</li>
+                    </ul>
+                </div>
+
+                <div class="cluster-item">
+                    <h2>Cluster Operations</h2>
+                    <ul>
+                        <li>Automatic load balancing</li>
+                        <li>Dynamic configuration</li>
+                        <li>Scaling (add/remove brokers)</li>
+                        <li>Monitoring and metrics</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Key Features Panel -->
+        <div class="panel features-panel">
+            <h1>Key Features</h1>
+            <div class="features-container">
+                <div class="feature">
+                    <h2>Fault Tolerance</h2>
+                    <ul>
+                        <li>Replication across brokers</li>
+                        <li>Automatic leader election</li>
+                        <li>No data loss if broker fails</li>
+                    </ul>
+                </div>
+
+                <div class="feature">
+                    <h2>Scalability</h2>
+                    <ul>
+                        <li>Add brokers - scale horizontally</li>
+                        <li>Add partitions - scale topics</li>
+                        <li>Add consumers - scale processing</li>
+                    </ul>
+                </div>
+
+                <div class="feature">
+                    <h2>High Throughput</h2>
+                    <ul>
+                        <li>MPS (messages per second) in millions</li>
+                        <li>Parallel processing via partitions</li>
+                        <li>Sequential disk I/O (fast)</li>
+                    </ul>
+                </div>
+
+                <div class="feature">
+                    <h2>Message Persistence</h2>
+                    <ul>
+                        <li>Messages stored on disk</li>
+                        <li>Configurable retention</li>
+                        <li>Can replay messages</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Use Cases Panel -->
+        <div class="panel use-cases-panel">
+            <h1>Common Use Cases</h1>
+            <div class="use-cases-container">
+                <div class="use-case">
+                    <h2>Event Streaming</h2>
+                    <p class="flow">User Actions → Kafka → Real-time Analytics</p>
+                    <ul>
+                        <li>Click events</li>
+                        <li>Page views</li>
+                        <li>User behavior</li>
+                    </ul>
+                </div>
+
+                <div class="use-case">
+                    <h2>Message Queuing</h2>
+                    <p class="flow">Service A → Kafka → Service B</p>
+                    <ul>
+                        <li>Order processing</li>
+                        <li>Email notifications</li>
+                        <li>Task distribution</li>
+                    </ul>
+                </div>
+
+                <div class="use-case">
+                    <h2>Log Aggregation</h2>
+                    <p class="flow">Many Sources → Kafka → Central Storage</p>
+                    <ul>
+                        <li>Application logs</li>
+                        <li>System metrics</li>
+                        <li>Audit trails</li>
+                    </ul>
+                </div>
+
+                <div class="use-case">
+                    <h2>Stream Processing</h2>
+                    <p class="flow">Raw Data → Kafka → Process → Kafka → Processed</p>
+                    <ul>
+                        <li>Data transformations</li>
+                        <li>Real-time alerts</li>
+                        <li>Filtering/Enrichment</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- Docker Setup Panel -->
+        <div class="panel">
+            <h1>Setting up Kafka</h1>
+            <h2>docker-compose.yml</h2>
+            <pre>
+version: '3'
+services:
+    kafka1:
+        image: confluentinc/cp-kafka:latest
+        ports:
+            - "9092:9092"
+            - "29092:29092"
+        environment:
+            KAFKA_BROKER_ID: 1
+            KAFKA_NODE_ID: 1
+            # ... (rest of kafka1 config)
+
+    kafka2:
+        image: confluentinc/cp-kafka:latest
+        ports:
+            - "9093:9093"
+            - "29093:29093"
+        environment:
+            KAFKA_BROKER_ID: 2
+            KAFKA_NODE_ID: 2
+            # ... (rest of kafka2 config)
+
+    kafka3:
+        image: confluentinc/cp-kafka:latest
+        ports:
+            - "9094:9094"
+            - "29094:29094"
+        environment:
+            KAFKA_BROKER_ID: 3
+            KAFKA_NODE_ID: 3
+            # ... (rest of kafka3 config)
+            </pre>
+        </div>
+
+        <!-- Commands Panel -->
+        <div class="panel commands-panel">
+            <h1>Common Commands</h1>
+            <div class="commands-container">
+                <div class="command-item">
+                    <h2>Topic Management</h2>
+                    <pre>
+        # Create topic
+        kafka-topics --create \
+            --topic my-topic \
+            --partitions 3 \
+            --replication-factor 2 \
+            --bootstrap-server localhost:9092
+        
+        # List topics
+        kafka-topics --list \
+            --bootstrap-server localhost:9092
+        
+        # Add partitions
+        kafka-topics --alter \
+            --topic my-topic \
+            --partitions 6 \
+            --bootstrap-server localhost:9092</pre>
+                </div>
+
+                <div class="command-item">
+                    <h2>Message Operations</h2>
+                    <pre>
+        # Produce messages
+        kafka-console-producer \
+            --topic my-topic \
+            --bootstrap-server localhost:9092
+        
+        # Consume messages
+        kafka-console-consumer \
+            --topic my-topic \
+            --from-beginning \
+            --bootstrap-server localhost:9092</pre>
+                </div>
+
+                <div class="command-item">
+                    <h2>Monitoring</h2>
+                    <pre>
+        # Consumer Lag
+        kafka-consumer-groups \
+            --describe \
+            --group my-group \
+            --bootstrap-server localhost:9092
+        
+        # Health check
+        kafka-broker-api-versions \
+            --bootstrap-server localhost:9092
+        
+        # Describe topic
+        kafka-topics --describe \
+            --topic my-topic \
+            --bootstrap-server localhost:9092</pre>
+                </div>
+            </div>
+        </div>
+
+        <!-- Security Panel -->
+        <div class="panel security-panel">
+            <h1>Security & Network Configuration</h1>
+            <div class="security-container">
+                <div class="security-item">
+                    <h2>Security Protocols</h2>
+                    <div class="protocol">
+                        <h3>PLAINTEXT</h3>
+                        <p>No security, development only</p>
+                    </div>
+                    <div class="protocol">
+                        <h3>SSL</h3>
+                        <p>Encrypted communication</p>
+                    </div>
+                    <div class="protocol">
+                        <h3>SASL_PLAINTEXT</h3>
+                        <p>Authentication only</p>
+                    </div>
+                    <div class="protocol">
+                        <h3>SASL_SSL</h3>
+                        <p>Both authentication and encryption</p>
+                    </div>
+                </div>
+
+                <div class="security-item">
+                    <h2>External Ports</h2>
+                    <div class="port">
+                        <h3>Broker 1</h3>
+                        <p>9092</p>
+                        <span class="note">Outside Docker access</span>
+                    </div>
+                    <div class="port">
+                        <h3>Broker 2</h3>
+                        <p>9093</p>
+                        <span class="note">Outside Docker access</span>
+                    </div>
+                    <div class="port">
+                        <h3>Broker 3</h3>
+                        <p>9094</p>
+                        <span class="note">Outside Docker access</span>
+                    </div>
+                </div>
+
+                <div class="security-item">
+                    <h2>Internal Ports</h2>
+                    <div class="port">
+                        <h3>Broker 1</h3>
+                        <p>29092</p>
+                        <span class="note">Inside Docker network</span>
+                    </div>
+                    <div class="port">
+                        <h3>Broker 2</h3>
+                        <p>29093</p>
+                        <span class="note">Inside Docker network</span>
+                    </div>
+                    <div class="port">
+                        <h3>Broker 3</h3>
+                        <p>29094</p>
+                        <span class="note">Inside Docker network</span>
+                    </div>
+                </div>
+
+                <div class="security-item">
+                    <h2>Controller Port</h2>
+                    <div class="port special">
+                        <h3>All Brokers</h3>
+                        <p>29093</p>
+                        <span class="note">Cluster management</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Configurations Panel -->
+        <div class="panel config-panel">
+            <h1>Common Configurations</h1>
+            <div class="config-container">
+                <div class="config-item">
+                    <h2>Producer Reliability</h2>
+                    <pre>
+# Reliability Settings
+# Wait for all replicas
+acks=all
+# Retry failed sends
+retries=3
+# Prevent duplicates
+enable.idempotence=true</pre>
+                </div>
+
+                <div class="config-item">
+                    <h2>Producer Performance</h2>
+                    <pre>
+# Performance Settings
+# Batch size in bytes
+batch.size=16384
+# Wait time for batching
+linger.ms=1
+# Message compression
+compression.type=snappy</pre>
+                </div>
+
+                <div class="config-item">
+                    <h2>Consumer Basics</h2>
+                    <pre>
+# Basic Settings
+# Consumer group name
+group.id=my-group
+# Where to start reading
+auto.offset.reset=earliest
+# Auto commit offsets
+enable.auto.commit=true</pre>
+                </div>
+
+                <div class="config-item">
+                    <h2>Consumer Performance</h2>
+                    <pre>
+# Performance Settings
+# Minimum data to fetch
+fetch.min.bytes=1
+# Max records per poll
+max.poll.records=500
+# Max fetch size
+max.partition.fetch.bytes=1048576</pre>
+                </div>
+
+                <div class="config-item">
+                    <h2>Broker Settings</h2>
+                    <pre>
+# Broker Configuration
+# Default partitions
+num.partitions=3
+# Replication factor
+default.replication.factor=3
+# Minimum replicas
+min.insync.replicas=2
+# Message retention
+log.retention.hours=168</pre>
+                </div>
+
+                <div class="config-item">
+                    <h2>Security Settings</h2>
+                    <pre>
+# Security Configuration
+# Enable SSL
+ssl.enabled=true
+# Auth mechanism
+sasl.mechanism=PLAIN
+# Security protocol
+security.protocol=SASL_SSL
+# Client auth
+ssl.client.auth=required</pre>
+                </div>
+            </div>
+        </div>
+</body>
+
+</html>
